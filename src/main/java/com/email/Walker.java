@@ -25,6 +25,7 @@ public class Walker extends Thread {
 			while(true) { // comenzamos el hilo
 				
 				System.out.println("INICIALIZANDO EL HILO N° " + cont);
+				cont++;
 				
 				/* Esperamos un usuario con Tarjeta */
 				PhysicalSensor sensor = new PhysicalSensor(); // instanciamos clase
@@ -71,7 +72,8 @@ public class Walker extends Thread {
 									
 									try { // Intentamos mandar el correo
 										/* Borramos el historial */
-										stmt.executeQuery("DELETE FROM history");
+										Statement stmt2 = connection.createStatement();
+										stmt2.execute("DELETE FROM history");
 										sendEmail.run(name,email,rs1);
 									} catch (IOException | InterruptedException e) {
 										// TODO Auto-generated catch block
