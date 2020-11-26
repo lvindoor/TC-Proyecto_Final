@@ -49,11 +49,7 @@ public class Walker extends Thread {
 					String cardNumber = rs.getString("card_number");
 					System.out.println(cardNumber);
 
-					/* Primer estado de aceptacion */
-					if (cardNumber == "") { // No registrada
-						sensor.on("INVALID"); // mostramos la luz roja
-
-					} else { // Hay registro
+					if (cardNumber != null) { // Hay registro
 
 						/* Ejecutar consulta */
 						ResultSet rs0 = stmt
@@ -71,7 +67,7 @@ public class Walker extends Thread {
 								/* Obtenemos datos de paquetes del usuario */
 								String idUser = rs1.getString("id_user");
 
-								if (idUser == "") { // ¿No hay paquetes para el usuario?
+								if (idUser == null) { // ¿No hay paquetes para el usuario?
 									sensor.on("INSUFFICIENT"); // mostramos luz amarilla
 									/* Descansamos 3 segundos */
 									try {
@@ -114,7 +110,6 @@ public class Walker extends Thread {
 							}
 						}
 					}
-
 				}
 			}
 
