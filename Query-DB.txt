@@ -1,0 +1,36 @@
+CREATE TABLE users
+(
+  id serial NOT NULL PRIMARY KEY,
+  card_number character varying(50) NOT NULL UNIQUE,
+  firstname character varying(75) NOT NULL,
+  lastname character varying(75) NOT NULL,
+  email character varying(100) UNIQUE,
+  packages_received int NOT NULL,
+  packages_on_hold int NOT NULL 
+);
+
+CREATE TABLE packages
+(
+  id serial NOT NULL PRIMARY KEY,
+  name character varying(150) NOT NULL,
+  description character varying(255) NOT NULL,
+  price float,
+  quantity integer NOT NULL,
+  id_user integer NOT NULL,
+  
+  FOREIGN KEY (id_user)
+   REFERENCES users (id) MATCH SIMPLE
+   ON UPDATE NO ACTION ON DELETE NO ACTION
+  
+);
+
+CREATE TABLE history
+(
+  id serial NOT NULL PRIMARY KEY,
+  card_number character varying(50) NOT NULL,
+
+  FOREIGN KEY (card_number)
+   REFERENCES users (card_number) MATCH SIMPLE
+   ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+

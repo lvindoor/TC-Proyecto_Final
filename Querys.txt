@@ -1,0 +1,16 @@
+Select * from history
+Select * from users
+Select * from packages
+
+Delete from history
+
+INSERT INTO users (card_number, firstname, lastname, email, packages_received, packages_on_hold) VALUES ('598828584221', 'Karime Daniela', 'Juarez Perez', 'karime.perez5588@alumnos.udg.mx', 0, 5)
+INSERT INTO users (card_number, firstname, lastname, email, packages_received, packages_on_hold) VALUES ('419427387677', 'Aurora', 'Espinoza Valdez', 'aurora.espinoza@academicos.udg.mx', 0, 5)
+
+INSERT INTO packages(name, description, price, quantity, id_user) VALUES ('Xiaomi Mi Band 5', 'Version global Español ideal para practica deportiva', 749.55, 1, 2)
+INSERT INTO packages(name, description, price, quantity, id_user) VALUES ('Marcatextos doble punta', 'Paquete de 48 piezas en distintos colores', 243.83, 3, 1)
+INSERT INTO packages(name, description, price, quantity, id_user) VALUES ('Telescopio Astronomico', 'Tasco Luminova 900x60 C Mirilla 6x24', 3647.91, 1, 2)
+INSERT INTO packages(name, description, price, quantity, id_user) VALUES ('Camara Espia', 'Camara USB HD miniatura con forma de cargador', 528.64, 4, 1)
+INSERT INTO packages(name, description, price, quantity, id_user) VALUES ('Dermo QRIT', 'Solucion desinfectante para material quirurgico Alicate Krit', 79, 2, 2)
+
+INSERT INTO history (card_number) VALUES ('419427387677')
