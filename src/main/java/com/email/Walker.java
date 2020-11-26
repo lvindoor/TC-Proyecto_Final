@@ -57,7 +57,7 @@ public class Walker extends Thread {
 							/* Ejecutar consulta */
 							ResultSet rs1 = stmt.executeQuery("SELECT * FROM packages WHERE id_user = " + id + "");
 							/* Obtener consulta */
-							while ( rs1.first() ) { // obtenemos el primer paquete
+							while ( rs1.next() ) { // obtenemos el primer paquete
 								/* Obtenemos datos de paquetes del usuario */
 								String idUser = rs1.getString("id_user");
 								
@@ -70,6 +70,8 @@ public class Walker extends Thread {
 									SendEmail sendEmail = new SendEmail(); // instanciamos correo
 									
 									try { // Intentamos mandar el correo
+										/* Borramos el historial */
+										stmt.executeQuery("DELETE FROM history");
 										sendEmail.run(name,email,rs1);
 									} catch (IOException | InterruptedException e) {
 										// TODO Auto-generated catch block
