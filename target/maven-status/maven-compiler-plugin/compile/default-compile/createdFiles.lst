@@ -1,0 +1,8 @@
+com/email/model/Mail.class
+com/email/controller/EmailController.class
+com/email/service/EmailServiceImpl.class
+com/email/hardware/PhysicalSensor.class
+com/email/service/EmailService.class
+com/email/Walker.class
+com/email/send/SendEmail.class
+com/email/Application.class
