@@ -47,7 +47,7 @@ public class Walker extends Thread {
 					} else { // Hay registro
 						
 						/* Ejecutar consulta */
-						ResultSet rs0 = stmt.executeQuery("SELECT id FROM users WHERE card_number = '" + cardNumber + "'");
+						ResultSet rs0 = stmt.executeQuery("SELECT * FROM users WHERE card_number = '" + cardNumber + "'");
 						/* Obtener consulta */
 						while ( rs0.next() ) { 
 							/* Obtenemos id */
