@@ -67,7 +67,7 @@ public class Walker extends Thread {
 								/* Obtenemos datos de paquetes del usuario */
 								String idUser = rs1.getString("id_user");
 
-								if (idUser == null) { // ¿No hay paquetes para el usuario?
+								if (idUser == " ") { // ¿No hay paquetes para el usuario?
 									sensor.on("INSUFFICIENT"); // mostramos luz amarilla
 									/* Descansamos 3 segundos */
 									try {
@@ -89,7 +89,7 @@ public class Walker extends Thread {
 									/* Descansamos 3 segundos */
 									
 									try {
-										TimeUnit.SECONDS.sleep(3);
+										TimeUnit.SECONDS.sleep(7);
 									} catch (InterruptedException ie) {
 										Thread.currentThread().interrupt();
 									}
