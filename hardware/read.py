@@ -1,6 +1,7 @@
 import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
 
+import time
 import psycopg2 as psql
 
 reader = SimpleMFRC522()
@@ -21,6 +22,12 @@ try:
 
 
 	except (Exception, psql.DatabaseError) as error:
+		GPIO.setmode(GPIO.BOARD)
+		GPIO.setup(13,GPIO.OUT)
+		GPIO.output(13,True)
+		time.sleep(2)
+		GPIO.output(13,False)
+		time.sleep(1)
 		print(error)
 
 	finally:
@@ -29,4 +36,5 @@ try:
 			connection.close()
 			print("Conexion Postgresql cerrada")
 finally:
+
 	GPIO.cleanup()
