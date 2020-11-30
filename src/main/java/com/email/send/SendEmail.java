@@ -29,7 +29,7 @@ public class SendEmail {
 		/* Fecha */
 		Date date = new Date(); // Sistema actual La fecha y la hora se asignan a date
         System.out.println(date); 
-        String strDateFormat = "hh: mm: ss a dd-MMM-aaaa"; // El formato de fecha está especificado  
+        String strDateFormat = "dd-MMM-aaaa hh:mm:ss"; // El formato de fecha está especificado  
         SimpleDateFormat sort = new SimpleDateFormat(strDateFormat); // La cadena de formato de fecha se pasa como un argumento al objeto 
         System.out.println(sort.format(date)); // El formato de fecha se aplica a la fecha actual
 		

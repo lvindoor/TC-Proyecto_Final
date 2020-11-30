@@ -47,69 +47,70 @@ public class Walker extends Thread {
 
 					/* Obtenemos el numero de la tarjeta */
 					String cardNumber = rs.getString("card_number");
-					System.out.println(cardNumber);
+					System.out.println(cardNumber); // lo imprimimos
 
-					if (cardNumber != null) { // Hay registro
+					/* Ejecutar consulta */
+					ResultSet rs0 = stmt.executeQuery("SELECT * FROM users WHERE card_number = '" + cardNumber + "'");
+					
+					/* Obtener consulta */
+					while (rs0.next()) {
+						/* Obtenemos datos del usuario */
+						int id = rs0.getInt("id");
+						String name = rs0.getString("firstname");
+						String email = rs0.getString("email");
+						boolean onHold = true;
 
 						/* Ejecutar consulta */
-						ResultSet rs0 = stmt
-								.executeQuery("SELECT * FROM users WHERE card_number = '" + cardNumber + "'");
+						ResultSet rs1 = stmt.executeQuery("SELECT * FROM packages WHERE id_user = " + id + "");
+						
 						/* Obtener consulta */
-						while (rs0.next()) {
-							/* Obtenemos id */
-							int id = rs0.getInt("id");
-							String name = rs0.getString("firstname");
-							String email = rs0.getString("email");
-							/* Ejecutar consulta */
-							ResultSet rs1 = stmt.executeQuery("SELECT * FROM packages WHERE id_user = " + id + "");
-							/* Obtener consulta */
-							while (rs1.next()) { // obtenemos el primer paquete
-								/* Obtenemos datos de paquetes del usuario */
-								String idUser = rs1.getString("id_user");
+						while (rs1.next()) { // obtenemos el primer paquete
 
-								if (idUser == " ") { // ¿No hay paquetes para el usuario?
-									sensor.on("INSUFFICIENT"); // mostramos luz amarilla
-									/* Descansamos 3 segundos */
-									try {
-										TimeUnit.SECONDS.sleep(3);
-									} catch (InterruptedException ie) {
-										Thread.currentThread().interrupt();
-									}
-								} else {
-									sensor.on("VALID"); // mostramos luz verde
-									
-									/* Descansamos 3 segundos */
-									try {
-										TimeUnit.SECONDS.sleep(3);
-									} catch (InterruptedException ie) {
-										Thread.currentThread().interrupt();
-									}
-									
-									sensor.on("OPEN-BOX"); // abrimos la caja
-									/* Descansamos 3 segundos */
-									
-									try {
-										TimeUnit.SECONDS.sleep(7);
-									} catch (InterruptedException ie) {
-										Thread.currentThread().interrupt();
-									}
-									
-									/* Mandamos correo de recibido */
-									SendEmail sendEmail = new SendEmail(); // instanciamos correo
+							sensor.on("VALID"); // mostramos luz verde
+							
+							/* Descansamos 3 segundos */
+							try {
+								TimeUnit.SECONDS.sleep(3);
+							} catch (InterruptedException ie) {
+								Thread.currentThread().interrupt();
+							}
 
-									try { // Intentamos mandar el correo
-										/* Borramos el historial */
-										Statement stmt2 = connection.createStatement();
-										stmt2.execute("DELETE FROM history");
-										sendEmail.run(name, email, rs1);
-									} catch (IOException | InterruptedException e) {
-										// TODO Auto-generated catch block
-										e.printStackTrace();
-									}
-								}
+							sensor.on("OPEN-BOX"); // abrimos la caja
+
+							/* Descansamos 7 segundos */
+							try {
+								TimeUnit.SECONDS.sleep(7);
+							} catch (InterruptedException ie) {
+								Thread.currentThread().interrupt();
+							}
+							
+							onHold = false; // Ya no esta a la espera
+
+							try { // Intentamos mandar el correo
+								/* Mandamos correo de recibido */
+								SendEmail sendEmail = new SendEmail(); // instanciamos correo
+								sendEmail.run(name, email, rs1);
+								/* Borramos el historial */
+								Statement stmt2 = connection.createStatement();
+								stmt2.execute("DELETE FROM history");
+							} catch (IOException | InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+
+						/* ¿No hay paquetes para el usuario? */
+						if (onHold) { // ¿Hay en espera?
+							sensor.on("INSUFFICIENT"); // mostramos luz amarilla
+							/* Descansamos 3 segundos */
+							try {
+								TimeUnit.SECONDS.sleep(3);
+							} catch (InterruptedException ie) {
+								Thread.currentThread().interrupt();
 							}
 						}
 					}
+
 				}
 			}
 
