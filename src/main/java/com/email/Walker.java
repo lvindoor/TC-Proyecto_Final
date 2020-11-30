@@ -77,9 +77,9 @@ public class Walker extends Thread {
 
 							sensor.on("OPEN-BOX"); // abrimos la caja
 
-							/* Descansamos 7 segundos */
+							/* Descansamos 8 segundos */
 							try {
-								TimeUnit.SECONDS.sleep(7);
+								TimeUnit.SECONDS.sleep(8);
 							} catch (InterruptedException ie) {
 								Thread.currentThread().interrupt();
 							}
@@ -97,6 +97,8 @@ public class Walker extends Thread {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
+							
+							rs1.close(); // cerramos el resultset
 						}
 
 						/* ¿No hay paquetes para el usuario? */
@@ -109,9 +111,13 @@ public class Walker extends Thread {
 								Thread.currentThread().interrupt();
 							}
 						}
+						
+						rs0.close(); // cerramos el resultset
+						
 					}
-
 				}
+				
+				rs.close(); // cerramos el resultset
 			}
 
 		} catch (SQLException e1) {
