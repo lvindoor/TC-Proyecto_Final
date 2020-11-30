@@ -90,15 +90,10 @@ public class Walker extends Thread {
 								/* Mandamos correo de recibido */
 								SendEmail sendEmail = new SendEmail(); // instanciamos correo
 								sendEmail.run(name, email, rs1);
-								/* Borramos el historial */
-								Statement stmt2 = connection.createStatement();
-								stmt2.execute("DELETE FROM history");
 							} catch (IOException | InterruptedException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
-							
-							rs1.close(); // cerramos el resultset
 						}
 
 						/* ¿No hay paquetes para el usuario? */
@@ -112,12 +107,11 @@ public class Walker extends Thread {
 							}
 						}
 						
-						rs0.close(); // cerramos el resultset
-						
+						/* Borramos el historial */
+						Statement stmt2 = connection.createStatement();
+						stmt2.execute("DELETE FROM history");
 					}
 				}
-				
-				rs.close(); // cerramos el resultset
 			}
 
 		} catch (SQLException e1) {
